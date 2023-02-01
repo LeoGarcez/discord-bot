@@ -32,7 +32,6 @@ const activeGames = {};
 app.post('/interactions', async function (req, res) {
   // Interaction type and data
   const { type, id, data } = req.body;
-  console.log("a", type, id, data )
 
   /**
    * Handle verification requests
@@ -100,10 +99,12 @@ app.post('/interactions', async function (req, res) {
       // User's object choice
       const objectName = data.options[0].value;
 
-      console.log(req.body, userId, objectName)
+      console.log(userId, objectName, req.body)
 
-      req.body.member.add("1070351275729879101")
+      const endpoint = `/guilds/${req.body.guild_id}/members/${userId}/roles/${"1070351275729879101"}`
 
+      await DiscordRequest(endpoint, { method: 'PUT' });
+      
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
